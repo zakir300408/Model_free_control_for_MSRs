@@ -156,7 +156,7 @@ class RobotEnv():
         channel_mapping = {'X': 1, 'Y': 2}
         hardware_channel = channel_mapping[channel]
 
-        # Sg controls your actual hardware
+        # Sg controls actual hardware
         self.sg.set_parameter(hardware_channel, param_type, f"{value}{'ampere' if param_type == 'amplitude' else ''}")
 
     def write_hdf5(self, hdf5_file_path, data):
@@ -265,8 +265,6 @@ class RobotEnv():
         return initial_features
 
     def visualize_frame(self, frame, centers, angle, current_center, tolerance=0.07):
-        # let's time how long it takes to visualize the frame
-        start_time = time.time()
 
         # Draw the circular boundary
         frame_with_boundary = cv2.circle(
@@ -303,13 +301,10 @@ class RobotEnv():
         cv2.waitKey(1)
 
     def reset(self):
-        # let's reset the amplitude values to 0
         self.sg.set_parameter(1, 'amplitude', 0)
         self.sg.set_parameter(2, 'amplitude', 0)
-        # now assign the new amplitude values to the prev_amplitude_values
         self.prev_amplitude_value_x = 0
         self.prev_amplitude_value_y = 0
-        # let's return the phase values
         return
 
     def close(self):
@@ -333,7 +328,6 @@ all_best_positions = []  # New global list to accumulate best positions
 #         targets.append((target_x, target_y))
 #     return targets
 
-#make a function that generates a target position by simply adding 0.2 to the y coordinate
 def generate_target(current_x, current_y):
     targets=[]
     target_x = current_x + 0.1
@@ -357,8 +351,6 @@ def generate_two_targets(current_x, current_y):
           # Move right to complete the square
     ]
     return targets
-
-#function to generate triangular targets, first being the current position, and second is towards the right and third is 0.5 y units above the starting position
 def generate_triangle_targets(current_x, current_y):
     targets = [
         (current_x, current_y),  # Start at the current position of the robot
@@ -370,7 +362,6 @@ def generate_triangle_targets(current_x, current_y):
 
 
 
-
 if __name__ == "__main__":
     env = RobotEnv()
 
@@ -378,9 +369,6 @@ if __name__ == "__main__":
     # Get the initial features from the first step
     initial_features = env.step(0)
     print("Initial features:", initial_features)
-
-
-
 
     #triangle_targets = generate_square_targets(initial_features[5], initial_features[6])
     targets=generate_two_targets(initial_features[5], initial_features[6])
@@ -428,14 +416,6 @@ if __name__ == "__main__":
 
     # Plot all paths together after processing all targets
     plot_results(all_visited_positions, all_considered_positions, all_best_positions, targets, 0.05, initial_features)
-
-    # # let's give action values 11 and 9 alternatively for 200 steps
-    # causing_action_values = [0, 5] * 5
-    #
-    # for action in causing_action_values:
-    #     print("Action to apply:", action)
-    #     initial_features = env.step(action)
-    #     print("Initial features:", initial_features)
 
 
 
