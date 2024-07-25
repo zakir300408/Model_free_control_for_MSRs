@@ -2,6 +2,7 @@ import serial
 import serial.tools.list_ports
 import time
 
+
 class SignalGenerator:
     TARGET_DESCRIPTION = "USB-SERIAL CH340"
     CMD_PREFIXES = {
@@ -28,17 +29,25 @@ class SignalGenerator:
         self.ser = serial.Serial(port, baudrate, timeout=1)
 
     def _send_command(self, command):
+        print(f"Sending command: {command.strip()}")
         self.ser.write(command.encode("ascii"))
-        response = self.ser.readline().decode("ascii").strip()
-        return response
+
+        response = self.ser.read(1)  # Read the first byte
+        if response == b'\x0a':
+            print(f"Received expected response: {response}")
+            return response
+        else:
+            full_response = response + self.ser.read(self.ser.in_waiting)  # Read remaining bytes
+            print(f"Received unexpected response: {full_response}")
+            raise Exception(f"Command {command.strip()} failed with response: {full_response}")
 
     def close(self):
         self.ser.close()
 
     def set_parameter(self, channel, parameter, value):
         if (
-            parameter not in self.CMD_PREFIXES
-            or channel not in self.CMD_PREFIXES[parameter]
+                parameter not in self.CMD_PREFIXES
+                or channel not in self.CMD_PREFIXES[parameter]
         ):
             return
 
@@ -95,46 +104,8 @@ class SignalGenerator:
 
         zero_settings = {
             1: {"amplitude": 0},
-            2: {"amplitude": 0},
-            3: {"amplitude": 0},
+            2: {"amplitude": 0}
         }
 
         for channel, params in zero_settings.items():
             self.set_channel_parameters(channel, params)
-# def main():
-#     sg = SignalGenerator()
-#
-#     try:
-#         while True:
-#             user_input = input("Enter a number to update amplitude and phase, or 'q' to quit: ")
-#             if user_input.lower() == 'q':
-#                 break
-#
-#             try:
-#                 user_number = float(user_input)
-#             except ValueError:
-#                 print("Invalid input. Please enter a valid number.")
-#                 continue
-#
-#             amplitude_update = user_number * 0.1
-#             phase_update = user_number * 10.0
-#
-#             settings = {
-#                 1: {"amplitude": amplitude_update, "phase": phase_update},
-#                 2: {"amplitude": amplitude_update, "phase": phase_update},
-#                 3: {"amplitude": amplitude_update, "phase": phase_update}
-#             }
-#
-#             start_time = time.time()
-#             sg.move(settings)
-#             elapsed_time = time.time() - start_time
-#
-#             print(f"Time taken to update: {elapsed_time:.3f} seconds")
-#
-#     except KeyboardInterrupt:
-#         print("Interrupted by user.")
-#     finally:
-#         sg.close()
-#
-# if __name__ == "__main__":
-#     main()
