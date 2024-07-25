@@ -10,6 +10,7 @@ from predict_image import ResultVisualizer
 import torch
 from predic_action import *
 import h5py
+import threading
 
 # Constants
 DEVICE = "cuda"
@@ -155,13 +156,8 @@ class RobotEnv():
         channel_mapping = {'X': 1, 'Y': 2}
         hardware_channel = channel_mapping[channel]
 
-        # Assuming self.sg is some object that controls your actual hardware
+        # Sg controls your actual hardware
         self.sg.set_parameter(hardware_channel, param_type, f"{value}{'ampere' if param_type == 'amplitude' else ''}")
-
-    import threading
-    import h5py
-    import time
-    from datetime import datetime
 
     def write_hdf5(self, hdf5_file_path, data):
         with h5py.File(hdf5_file_path, "a") as hf:
@@ -241,9 +237,6 @@ class RobotEnv():
         channel = ['X', 'Y'][channel_index]
         value = phase_value if param_type == 'phase' else amplitude_value
         self.set_sg_parameters(channel, param_type, value)
-        channel_mapping = {'X': 1, 'Y': 2}
-        hardware_channel = channel_mapping[channel]
-        self.sg.set_parameter(hardware_channel, param_type, f"{value}{'ampere' if param_type == 'amplitude' else ''}")
 
         # Update the parameters after the action is applied
         updated_phase_values = [self.sg_parameters[ch]['phase'] / 180 for ch in ['X', 'Y']]
