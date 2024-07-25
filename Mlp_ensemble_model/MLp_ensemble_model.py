@@ -8,6 +8,9 @@ from joblib import dump, load
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from datetime import datetime
+from sklearn.metrics import mean_squared_error, mean_absolute_error, explained_variance_score, r2_score
+from matplotlib.lines import Line2D
 
 
 # Define the simplified FNN model with Dropout and Batch Normalization
@@ -211,13 +214,6 @@ def run_optuna(csv_file_path):
             file.write(f"{key}: {value}\n")
 
     return study
-import matplotlib.pyplot as plt
-import numpy as np
-from datetime import datetime
-from sklearn.metrics import mean_squared_error, mean_absolute_error, explained_variance_score, r2_score
-from matplotlib.lines import Line2D
-
-
 
 
 # Additional function to calculate confidence intervals
