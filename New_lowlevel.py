@@ -74,7 +74,7 @@ class RobotEnv(gym.Env):
         # 6 variables each with 2 possible values
         self.action_space = Discrete(8)  # 12 discrete actions
 
-        # Define Observation Space: Assuming you continue with normalized values and include control settings
+        # Define Observation Space
         self.observation_space = Box(low=0.0, high=1.0, shape=(7,),
                                      dtype=np.float32)  # Adjust according to actual state components
 
@@ -480,7 +480,7 @@ class RobotEnv(gym.Env):
         channel_mapping = {'X': 1, 'Y': 2}
         hardware_channel = channel_mapping[channel]
 
-        # Assuming self.sg is some object that controls your actual hardware
+        # sg controls the signal generator
         self.sg.set_parameter(hardware_channel, param_type, f"{value}{'ampere' if param_type == 'amplitude' else ''}")
         #apply channel 3 to 7 ampere
 
@@ -513,13 +513,6 @@ class RobotEnv(gym.Env):
 
         # Set the parameter
         self.set_sg_parameters(channel, param_type, value)
-
-        # Map 'X', 'Y', 'Z' to 1, 2, 3 for hardware interaction
-        channel_mapping = {'X': 1, 'Y': 2}
-        hardware_channel = channel_mapping[channel]
-
-        # Assuming self.sg is some object that controls your actual hardware
-        self.sg.set_parameter(hardware_channel, param_type, f"{value}{'ampere' if param_type == 'amplitude' else ''}")
 
 
         reward = self.calculate_reward(current_center,prev_distance_to_target=self.previous_distance_to_target)
