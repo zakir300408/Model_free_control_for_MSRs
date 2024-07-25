@@ -66,12 +66,4 @@ This repository contains the code and data used in the paper "Magnetic Soft Robo
 - **Description**: Scalar files for input normalization used in conjunction with the MLP models.
 - **Usage**: Load these scalars to normalize input data before feeding it into the MLP models.
 
-### Additional Files
 
-#### `README.md`
-- **Description**: This file provides an overview and instructions for the repository.
-- **Usage**: Update this file with any additional information or instructions as needed.
-
----
-
-Feel free to update this README with any additional information or details specific to your project.
