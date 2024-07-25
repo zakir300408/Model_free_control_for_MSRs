@@ -1,14 +1,15 @@
 import torch
 from joblib import load
 import numpy as np
-from models import LSTMNet
-import time
 import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
 from joblib import load
+import matplotlib.pyplot as plt
 import time
+import pickle
+
 
 class FNN(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
@@ -67,9 +68,7 @@ def denormalize_action(causing_action):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Using device: {device}")
 
-import numpy as np
-import torch
-from joblib import load
+
 
 # Load ensemble models
 def load_ensemble_models(num_models=5, model_path_template='best_model_ensemble_{}.pth'):
@@ -176,22 +175,10 @@ def update_components(initial_features, causing_action):
     components = update_component(components, param_type, channel, value)
     return components
 
-
-import numpy as np
-import matplotlib.pyplot as plt
-import time
-
 # Global list to accumulate positions
 all_visited_positions = []
 all_considered_positions = []
 all_best_positions = []  # New global list to accumulate best positions
-
-# Modify the plot_results function to unpack and plot the best positions for each target
-import pickle
-
-import matplotlib.pyplot as plt
-import pickle
-import time
 
 # Global variable to track if legends have been added
 legends_added = False
@@ -385,9 +372,6 @@ def generate_circle_targets(current_x, current_y):
         targets.append((target_x, target_y))
     return targets
 
-#let's make a function that
-
-# In your main function, append the best_positions for each target to the all_best_positions list
 if __name__ == "__main__":
     initial_features = [0.0, 0.0, 0.0, 0.0, 0.996383464798392, 0.738, 0.463, 0.0]
 
@@ -396,7 +380,6 @@ if __name__ == "__main__":
     #triangle_targets = generate_triangle_targets(initial_features[5], initial_features[6])
     #circle_targets = generate_triangle_targets(initial_features[5], initial_features[6])
     #print("Triangle Targets to reach:", triangle_targets)
-    #make a target 0.3 away from the starting point in x direction
     circle_targets = [(0.33799999999999997, 0.463)]
 
     for target in circle_targets:
