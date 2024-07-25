@@ -22,7 +22,7 @@ class ResultVisualizer:
 
     def find_class_centers(self, predicted_classes):
         centers = {}
-        for class_idx in [1, 2]:  # Assuming classes 1 and 2 are "B" and "F" respectively
+        for class_idx in [1, 2]:
             mask = predicted_classes == class_idx
             contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             circular_contours = [cnt for cnt in contours if self.is_circular(cnt)]
@@ -156,7 +156,6 @@ def main():
     result_visualizer = ResultVisualizer(model, device)
     result_visualizer.process_video('camera/output_20231011-234726.avi', 'output_video.avi')  # Updated method call
 
-#write a function that loads a single frame, detects the orientation of the object in the frame, and returns the orientation angle and the position of the object's centers
 def predict_image(image_path):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
