@@ -9,8 +9,6 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.callbacks import BaseCallback
 from New_lowlevel import RobotEnv
 
-# Define a callback to save the model and the replay buffer
-# at a specified interval
 class BufferSavingCallback(BaseCallback):
     def __init__(self, model_save_path, checkpoint_freq=5000, verbose=0):
         super(BufferSavingCallback, self).__init__(verbose)
@@ -57,8 +55,6 @@ def load_random_state(load_path, step):
     except FileNotFoundError:
         logging.warning("Random state file not found. Continuing with a new random state.")
 
-
-# Setup paths for saving model, buffer, and training data
 model_save_path = "saved_models"
 buffer_save_path = os.path.join(model_save_path, "replay_buffers")
 if not os.path.exists(model_save_path):
@@ -66,7 +62,6 @@ if not os.path.exists(model_save_path):
 if not os.path.exists(buffer_save_path):
     os.makedirs(buffer_save_path)
 
-# Set up logging and warnings
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 warnings.filterwarnings("ignore", category=UserWarning)
 
