@@ -1,6 +1,6 @@
 # Magnetic Soft Robot Closed Loop Control Framework: Model Inference via Reinforcement Learning and Multi-Layer Perceptron Ensemble
 
-This repository contains the code and data used in the paper "Magnetic Soft Robot Closed Loop Control Framework: Model Inference via Reinforcement Learning and Multi-Layer Perceptron Ensemble" submitted to the IEEE Transactions on Mechantronics.
+This repository contains the code and data used in the paper "Model-Free Closed-Loop Control of Magnetic Soft Robots via Reinforcement Learning and Ensemble Neural Networks.
 
 ## Authors
 
