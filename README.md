@@ -1,7 +1,7 @@
 
 # Model-Free Closed-Loop Control of Magnetic Soft Robots via Reinforcement Learning and Ensemble Neural Networks
 
-This repository contains the code and data for the paper **"Model-Free Closed-Loop Control of Magnetic Soft Robots via Reinforcement Learning and Ensemble Neural Networks."**
+This repository contains the code:
 
 ## Authors
 
@@ -9,6 +9,7 @@ This repository contains the code and data for the paper **"Model-Free Closed-Lo
 - Dong Wang
 - Jinqiang Wang
 - Zixiao Zhu
+- Qing Xia
 - Peter B. Shull
 
 ## Repository Structure
